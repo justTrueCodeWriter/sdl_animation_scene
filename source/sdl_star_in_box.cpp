@@ -1,9 +1,9 @@
 #include <SDL2/SDL.h>
-#include "sdl_general.h"
+#include "include/sdl_general.h"
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
-#include "flying_star.h"
+#include "include/flying_star.h"
 
 #define STAR_POINTS_COUNT 11
 
@@ -38,7 +38,7 @@ void star_in_box(float x, float y, int width, int height, SDL_Window* win, SDL_R
 
 }
 
-void flying_star(int width, int height, SDL_Window* win, SDL_Renderer* ren) {
+void flying_star_2_layer(int width, int height, SDL_Window* win, SDL_Renderer* ren) {
 
 	float x=0, y=600, v, a, currentTime;
 
@@ -60,7 +60,7 @@ void flying_star(int width, int height, SDL_Window* win, SDL_Renderer* ren) {
 	//SDL_Delay(6000);
 
 }
-
+/*
 int main() {
 
 	srand(time(NULL));
@@ -69,9 +69,9 @@ int main() {
 	int c = 0;
 	while (c < 10){
 		printf("Step %d\n", c);
-		flying_star(WIDTH, HEIGHT, win, ren);
+		flying_star_2_layer(WIDTH, HEIGHT, win, ren);
 		c++;
 	}
 	DeInit();
 
-}
+}*/

@@ -1,51 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "include/sdl_general.h"
 
-float win_width = 1000, win_height = 600;
-SDL_Window* win = 0;
-SDL_Renderer* ren = 0;
-float Ox = win_width / 2, Oy = win_height / 2;
-
-void init(); void de_init(int error);
-
-void init() {
-
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		printf("Couldn't init sdl, Error %s", SDL_GetError());
-		system("pause");
-		de_init(1);
-	}
-
-	win = SDL_CreateWindow("Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		win_width, win_height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	if (win == NULL) {
-		printf("window couldn't init %s", SDL_GetError());
-		system("pause");
-		SDL_Quit();
-		de_init(1);
-	}
-
-	ren = SDL_CreateRenderer(win, 0, SDL_RENDERER_ACCELERATED);
-	if (ren == NULL) {
-		printf("renderer couldn't init %s", SDL_GetError());
-		system("pause");
-		SDL_Quit();
-		de_init(1);
-	}
-}
-
-void de_init(int error) {
-	if (ren != 0) SDL_DestroyRenderer(ren);
-	if (win != 0) SDL_DestroyWindow(win);
-	SDL_Quit();
-	exit(error);
-}
-
-
-int main(int argc, char* argv[]) {
-	init();
+int midnight_city_0_layer(int argc, char* argv[]) {
 	bool isRunning = true;
 	int flag = 0;
 	int flag_2 = 0;
@@ -403,6 +362,5 @@ int main(int argc, char* argv[]) {
 	}
 
 
-	de_init(0);
 	return 0;
 }
