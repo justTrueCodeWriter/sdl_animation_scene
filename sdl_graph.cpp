@@ -4,16 +4,20 @@
 #include <time.h>
 #include "sdl_general.h"
 
+float rand_float(float min, float max) {
+	return ((max - min) * ((float)rand() / (float)RAND_MAX)) + min;
+}
+
 int main() {
 	srand(time(NULL));
 
 	Init();
 
-	float x=200, y=400, v, a;
+	float x=0, y=800, v, a;
 	float currentTime;
 
-	v = rand()%40+1;
-	a = rand()%90+1;
+	v = rand_float(1, 15);
+	a = rand_float(0.1, 1);
 	printf("v = %f\na = %f\n", v, a);
 	
 	
@@ -26,18 +30,16 @@ int main() {
 	SDL_SetRenderDrawColor(ren, 255, 255, 255, 255);
 	SDL_RenderClear(ren);
 
-	 {
+	for (double t = 0;currentTime<200; x+=v*cos(a)*t, y=abs(y-v*t*sin(a)+(10*t*t)/2), t+=0.016) {
+		SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 
 
-			SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+		SDL_FRect rect = {x, y, 10, 10};
 
+		SDL_RenderFillRectF(ren, &rect);
+		currentTime++;
 
-			SDL_FRect rect= {x, y, 10, 10};
-
-			SDL_RenderFillRectF(ren, &rect);
-
-
-		}
+	}
 
 	SDL_RenderPresent(ren);	
 

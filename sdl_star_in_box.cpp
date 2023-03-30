@@ -3,20 +3,20 @@
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
+#include "flying_star.h"
 
 #define STAR_POINTS_COUNT 11
 
 struct StarInTheBox {
 	float x, y;
-	float scale;
 };
 
 StarInTheBox s;
 
 void star_in_box(float x, float y, int width, int height, SDL_Window* win, SDL_Renderer* ren) {
 
-	float w = 80, h = 80;
-	SDL_FPoint starPoints[STAR_POINTS_COUNT] = {{x, y+27}, {x+27, y+27}, {x+w/2, y}, {x+w-27, y+27}, {x+w, y+27}, {x+w/2+18, y+h/2+8}, {x+w-10, y+h}, {x+w/2, y+h/2+22}, {x+10, y+h}, {x+w/2-18, y+h/2+8}, {x, y+27}};
+	float w = 40, h = 40;
+	SDL_FPoint starPoints[STAR_POINTS_COUNT] = {{x, y+13}, {x+13, y+13}, {x+w/2, y}, {x+w-13, y+13}, {x+w, y+13}, {x+w/2+9, y+h/2+4}, {x+w-5, y+h}, {x+w/2, y+h/2+11}, {x+9, y+h}, {x+w/2-9, y+h/2+4}, {x, y+13}};
 
 	//SDL_FPoint starPoints[STAR_POINTS_COUNT] = {{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}};
 	SDL_FRect rect = {x, y, w, h};
@@ -40,26 +40,18 @@ void star_in_box(float x, float y, int width, int height, SDL_Window* win, SDL_R
 
 void flying_star(int width, int height, SDL_Window* win, SDL_Renderer* ren) {
 
-	float x=0, y=600, v, a;
+	float x=0, y=600, v, a, currentTime;
 
-	v = 10;//rand()%3+1;
-	a = rand()/(1.0+0.01);
+	v = rand_float(1, 15);
+	a = rand_float(0.1, 1.0);
 	printf("v = %f\na = %f\n", v, a);
 	
-
-
-	double xCord = v/cos(a);
-	double yCord = v/sin(a);
-
-	printf("x = %lf\ny = %lf\n", xCord, yCord);
-
-
-	//x<200&&y<700
-	for (int t = 0; t < 300; x+=xCord, y-=yCord, t++){
+	for (double t = 0;((int)x<1040)&&((int)y<645); x+=v*cos(a)*t, y=abs(y-v*t*sin(a)+(10*t*t)/2), t+=0.016){
+			printf("x = %.3lf, y  = %.3lf\n", x, y);
 			SDL_SetRenderDrawColor(ren, 200, 200, 200, 255);
 			SDL_RenderClear(ren);
 
-			star_in_box(x, y-80, width, height, win, ren);	
+			star_in_box(x, y-40, width, height, win, ren);	
 			SDL_RenderPresent(ren);	
 			SDL_Delay(16);
 		}
@@ -74,7 +66,12 @@ int main() {
 	srand(time(NULL));
 
 	Init();
-	flying_star(WIDTH, HEIGHT, win, ren);
+	int c = 0;
+	while (c < 10){
+		printf("Step %d\n", c);
+		flying_star(WIDTH, HEIGHT, win, ren);
+		c++;
+	}
 	DeInit();
 
 }
